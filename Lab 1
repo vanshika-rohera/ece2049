@@ -1,0 +1,275 @@
+Trial1
+ Created on: Feb 10, 2021
+     Author: Sarah Vasquez
+/************** ECE2049 DEMO CODE ******************/
+/**************  28 March 2020   ******************/
+/*********Redesigned by Hamayel Qureshi********/
+/***************************************************/
+
+#include <msp430.h>
+#include "peripherals.h"
+#include <stdio.h>
+#include <stdlib.h>
+#include <time.h>
+
+
+// Function Prototypes
+void swDelay(char numLoops);
+
+
+
+// Main
+void main(void)
+
+
+{
+   unsigned char currKey=0, dispSz = 3;
+   unsigned char dispThree[3];
+   int state  = 4; //Defines the State Machine and starts it at 0 so we can assign actions to each number.
+   int currKey1 = 0; //
+
+
+    WDTCTL = WDTPW | WDTHOLD;    // Stop watchdog timer. Always need to stop this!!
+                                 // You can then configure it properly, if desired
+
+
+
+
+    // Useful code starts here
+    initLeds();
+    configDisplay();
+    configKeypad();
+
+    // *** Intro Screen ***
+    Graphics_clearDisplay(&g_sContext); // Clear the display
+
+    // Write some text to the display
+
+    Graphics_drawStringCentered(&g_sContext, "SIMON", AUTO_STRING_LENGTH, 64, 40, TRANSPARENT_TEXT); //Part 1
+    //Graphics_drawStringCentered(&g_sContext, "Welcome", AUTO_STRING_LENGTH, 20, 50, TRANSPARENT_TEXT);
+    //Graphics_drawStringCentered(&g_sContext, "to", AUTO_STRING_LENGTH, 20, 60, TRANSPARENT_TEXT);
+    //Graphics_drawStringCentered(&g_sContext, "ECE2049-C21!", AUTO_STRING_LENGTH, 20, 70, TRANSPARENT_TEXT);
+
+    // Draw a box around everything because it looks nice
+    Graphics_Rectangle box = {.xMin = 3, .xMax = 125, .yMin = 3, .yMax = 125 };
+    Graphics_drawRectangle(&g_sContext, &box);
+
+    // We are now done writing to the display.  However, if we stopped here, we would not
+    // see any changes on the actual LCD.  This is because we need to send our changes
+    // to the LCD, which then refreshes the display.
+    // Since this is a slow operation, it is best to refresh (or "flush") only after
+    // we are done drawing everything we need.
+    Graphics_flushBuffer(&g_sContext);
+
+    dispThree[0] = ' ';
+    dispThree[2] = ' ';
+
+    while (1)    // Forever loop
+    {
+        // Check if any keys have been pressed on the 3x4 keypad
+        currKey = getKey();
+
+        if (currKey == '*')
+        {
+            state = 0;
+            currKey1 = 0;
+            //BuzzerOn();
+            //P1OUT |= BIT0;      // Set the P1.0 as 1 (High)
+        }
+
+        //if (currKey == '#')
+        //{
+          //  BuzzerOff();
+            //P4OUT |= BIT7;      // Set the P4.7 as 1 (High)
+       // }
+
+        //if (currKey)
+        //{
+          //  dispThree[1] = currKey;
+            // Draw the new character to the display
+            //Graphics_drawStringCentered(&g_sContext, dispThree, dispSz, 64, 90, OPAQUE_TEXT);
+
+            // Refresh the display so it shows the new data
+            //Graphics_flushBuffer(&g_sContext);
+
+            // wait awhile before clearing LEDs
+            //swDelay(1);
+           // setLeds(0);
+       // }
+
+    //}
+ //end while(1);
+}
+//Begin Creating the State Machine for the Simon Game
+
+switch(state) {
+
+
+
+
+
+
+
+
+
+#include <msp430.h>
+#include "peripherals.h"
+#include <stdio.h>
+#include <stdlib.h>
+#include <time.h>
+
+
+
+//Define the States of the code from the Lab 1 paper
+#define WELCOME         0
+#define Play Sequence   1
+#define Check Input     2
+#define Update Sequence 3
+#define WINNER          4
+#define MAX_SEQ_LENGTH  32
+
+// Function Prototypes
+void swDelay(char numLoops);
+
+// Main
+void main(void)
+{
+    WDTCTL = WDTPW | WDTHOLD; //Watchdog Timer
+      initLeds();
+      configDisplay();
+      configKeypad();
+    unsigned char currKey=0;
+   // int state=0;*/
+    int state = WELCOME;
+   while (1){
+       switch(state){
+       case WELCOME:
+                       Graphics_clearDisplay(&g_sContext);
+                       Graphics_drawStringCentered(&g_sContext, "Welcome to SIMON", AUTO_STRING_LENGTH, 64, 40, TRANSPARENT_TEXT);
+                       Graphics_flushBuffer(&g_sContext);
+                   }
+       }
+   }
+
+    //volatile int button =
+
+    //WDTCTL = WDTPW | WDTHOLD; //Watchdog Timer
+
+   /* // Useful code starts here
+     initLeds();
+     configDisplay();
+     configKeypad();
+*/
+    /* while (1)
+     {
+        currKey = getKey();
+        if (currKey == "1") {
+            state = 1;
+        }
+
+
+     }
+
+     switch (state){
+
+  //   int state = 0;
+     case 0:
+     {
+         { while(1)
+             currKey = getKey();
+             if (currKey == '1'){
+
+
+                              state = 1;
+                              Graphics_clearDisplay(&g_sContext);
+                              Graphics_drawStringCentered(&g_sContext, "3", AUTO_STRING_LENGTH, 64, 40, TRANSPARENT_TEXT);
+                              Graphics_flushBuffer(&g_sContext);
+             }
+             else{
+             state = 0;
+             Graphics_clearDisplay(&g_sContext);
+             Graphics_drawStringCentered(&g_sContext, "SIMON", AUTO_STRING_LENGTH, 64, 40, TRANSPARENT_TEXT);
+             Graphics_flushBuffer(&g_sContext);
+         }
+             break;
+     }
+
+
+
+         currKey = getKey();
+         if (currKey == '1'){
+
+
+                      state = 1;
+                      Graphics_clearDisplay(&g_sContext);
+                      Graphics_drawStringCentered(&g_sContext, "3", AUTO_STRING_LENGTH, 64, 40, TRANSPARENT_TEXT);
+                      Graphics_flushBuffer(&g_sContext);
+
+
+     case 1:
+         currKey = getKey();
+         if (currKey == '*'){
+             state = 1;
+             Graphics_clearDisplay(&g_sContext);
+             Graphics_drawStringCentered(&g_sContext, "3", AUTO_STRING_LENGTH, 64, 40, TRANSPARENT_TEXT);
+             Graphics_flushBuffer(&g_sContext);
+         }
+
+}
+
+}
+}
+*/
+
+case 0:
+{
+    state = 0;
+    currkey1 = 0;
+
+}
+Graphics_drawStringCentered(&g_sContext, "SIMON", AUTO_STRING_LENGTH, 64, 40, TRANSPARENT_TEXT);
+Graphics_flushBuffer(&g_sContext);
+currKey = getKey();
+
+/*if (currkey == '*')
+{
+    state = 1;
+    currKey = 1;
+    Graphics_flushBuffer(&g_sContext);
+    Graphics_drawStringCentered(&g_sContext, "3", AUTO_STRING_LENGTH, 64, 40, TRANSPARENT_TEXT);
+    Graphics_flushBuffer(&g_sContext);
+    swdelay(1);
+    Graphics_drawStringCentered(&g_sContext, "2", AUTO_STRING_LENGTH, 64, 40, TRANSPARENT_TEXT);
+    //Graphics_flushBuffer(&g_sContext);
+    swDelay(1);
+    Graphics_drawStringCentered(&g_sContext, "1", AUTO_STRING_LENGTH, 64, 40, TRANSPARENT_TEXT);
+    //Graphics_flushBuffer(&g_sContext);
+    swDelay(1);
+}*/
+break;
+}
+
+
+/*
+void swDelay(char numLoops)
+{
+	// This function is a software delay. It performs
+	// useless loops to waste a bit of time
+	//
+	// Input: numLoops = number of delay loops to execute
+	// Output: none
+	//
+	// smj, ECE2049, 25 Aug 2013
+    // hamayel qureshi, 28 march 2020
+
+	volatile unsigned int i,j;	// volatile to prevent removal in optimization
+			                    // by compiler. Functionally this is useless code
+
+	for (j=0; j<numLoops; j++)
+    {
+    	i = 50000 ;					// SW Delay
+   	    while (i > 0)				// could also have used while (i)
+	       i--;
+    }
+}
+*/
