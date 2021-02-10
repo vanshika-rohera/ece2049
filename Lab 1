@@ -13,8 +13,11 @@ void playseq();
 //Global Variables
 int state = 0;
 int rounds = 0;
+int array = [4];
 
 #define MAX_ROUNDS 10
+#define RAND_MAX    4
+
 
 
 void main(void){
@@ -85,7 +88,21 @@ void main(void){
         {
             unsigned int delay = 10;
             int k;
+            for (k = 0, k < MAX_ROUNDS, k++){
+            int randnum;
+            randnum = rand();
+            printf(" %d" , randnum);
+            array[0] = randnum;
+            if {
+                randnum = 0;
+                randnum = rand();
+                printf(" %d" , randnum);
+                array[0] = randnum;
+            }
             
+            
+            }
+           
             
 
         }
